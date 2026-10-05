@@ -1,0 +1,16 @@
+# 编译产物
+target/
+*.class
+
+# IDE 文件
+*.iml
+.idea/
+.vscode/
+*.log
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 重复的旧源码目录（根目录下已有完整 src）
+untitled/

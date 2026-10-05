@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+    # 文件上传大小限制
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/campus_secondhand?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    username: root
+    password: ${DB_PASSWORD}
+  # 文件上传存储路径（windows路径用/或\\）
+  servlet:
+    multipart:
+      enabled: true
+  # 静态资源映射：访问/images/xxx 指向本地上传文件夹
+  web:
+    resources:
+      static-locations: file:C:/upload/
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: org.example.demo.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="demo.mapper.ProductMapper">
+
+    <!-- 列表查询 -->
+    <select id="list" resultType="demo.entity.Product">
+        SELECT * FROM product
+        <where>
+            <if test="name != null and name != ''">
+                AND name LIKE CONCAT('%', #{name}, '%')
+            </if>
+        </where>
+        ORDER BY create_time DESC
+    </select>
+    <select id="selectOnSaleList" resultType="demo.entity.Product">
+        select id, name, price, seller, contact, description
+        from product
+    </select>
+    <!-- 根据ID查询 -->
+    <select id="getById" resultType="demo.entity.Product">
+        SELECT * FROM product WHERE id = #{id}
+    </select>
+
+    <!-- 新增：补充 user_id 字段，数据库自动生成创建时间 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO product(
+        name, description, price, category, seller, contact,
+        status, image, user_id, delivery_type, create_time
+        )
+        VALUES (
+        #{name}, #{description}, #{price}, #{category}, #{seller}, #{contact},
+        #{status}, #{image}, #{userId}, #{deliveryType}, NOW()
+        )
+    </insert>
+
+    <!-- 修改 -->
+    <update id="update">
+        UPDATE product
+        SET name = #{name},
+        description = #{description},
+        price = #{price},
+        category = #{category},
+        seller = #{seller},
+        contact = #{contact},
+        status = #{status},
+        image = #{image},
+        delivery_type = #{deliveryType}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除 -->
+    <delete id="deleteById">
+        DELETE FROM product WHERE id = #{id}
+    </delete>
+
+    <!-- 根据用户ID更新所有商品的卖家昵称 -->
+    <update id="updateSellerByUserId">
+        UPDATE product
+        SET seller = #{seller}
+        WHERE user_id = #{userId}
+    </update>
+
+</mapper>
